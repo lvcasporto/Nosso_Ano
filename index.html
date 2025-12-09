@@ -14,51 +14,51 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* --- CORREÇÃO PARA PC E MOBILE --- */
         html, body {
-            height: 100%; /* Garante altura no PC */
+            height: 100%;
             width: 100%;
             background-color: #b22222; 
             font-family: 'Montserrat', sans-serif;
             color: white;
-            overflow: hidden; /* Trava rolagem */
+            overflow: hidden; 
         }
 
-        /* O HERO agora é um Flexbox que centraliza tudo */
         #hero {
             height: 100%;
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Alinha verticalmente */
-            align-items: center;     /* Alinha horizontalmente */
+            justify-content: center;
+            align-items: center;
             position: relative;
         }
 
-        /* --- CONTAINER CENTRAL (SEGURA CORAÇÃO + PLAYER) --- */
-        /* Isso garante que eles fiquem alinhados um embaixo do outro */
+        /* CAIXA CENTRAL */
         .main-center {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px; /* Espaço entre Coração e Player */
+            
+            /* AQUI ESTÁ A CORREÇÃO DO ESPAÇO: */
+            gap: 50px; /* Aumentei bastante o espaço entre eles */
+            
             width: 100%;
-            max-width: 600px; /* Limite para não estourar no PC */
-            transform: translateY(-20px); /* Sobe um pouquinho para dar espaço pro rodapé */
+            max-width: 600px;
+            transform: translateY(-30px); /* Subi o conjunto todo para caber na tela */
         }
 
         /* CORAÇÃO */
         .heart-container {
             position: relative;
             width: 38vmin; height: 38vmin;
-            min-width: 260px; min-height: 260px;
+            min-width: 250px; min-height: 250px;
             max-width: 450px; max-height: 450px;
             background-color: #d64045;
             transform: rotate(-45deg);
             animation: heartbeat 1.5s infinite ease-in-out;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
-            margin: 20px; /* Margem de segurança */
+            /* Removi margens para controlar tudo pelo GAP acima */
         }
 
         .heart-container::before, .heart-container::after {
@@ -76,7 +76,6 @@
             70% { transform: rotate(-45deg) scale(1); }
         }
 
-        /* TEXTO DENTRO DO CORAÇÃO */
         .hero-content {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%) rotate(45deg);
@@ -111,23 +110,26 @@
         .spotify-wrapper {
             position: relative;
             z-index: 200;
-            width: 90%;
-            max-width: 350px;
+            width: 85%;
+            max-width: 280px;
+            margin: 0 auto; 
             
-            /* FUNDO VINHO */
+            /* FORÇA EXTRA PARA DESCER (Além do GAP) */
+            margin-top: 20px; 
+            
             background-color: #800000; 
-            padding: 5px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 4px;
+            border-radius: 20px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         .spotify-wrapper iframe {
             display: block;
-            border-radius: 12px;
-            width: 100%; /* Ocupa 100% do wrapper */
+            border-radius: 16px;
+            width: 100%;
         }
 
-        /* --- RODAPÉ (SETA E MENSAGEM) --- */
+        /* RODAPÉ */
         .footer-fixed {
             position: absolute;
             bottom: 20px;
@@ -183,7 +185,7 @@
 
             <div class="spotify-wrapper">
                 <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/playlist/4IMBYmIb9yJa1jNKv0FXG0?si=1dspoRL-RLKkbGxvsZJoxQ" 
+                src="https://open.spotify.com/embed/track/270ZzqUu270ZzqUu" 
                 width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
 
@@ -204,7 +206,6 @@
     </section>
 
     <script>
-        // TIMER
         const startDate = new Date(2024, 11, 14, 0, 0, 0);
 
         function updateTimer() {
