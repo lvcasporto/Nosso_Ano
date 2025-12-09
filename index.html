@@ -41,36 +41,34 @@
             justify-content: center;
             width: 100%;
             max-width: 600px;
-            /* Subi um pouco para centralizar visualmente */
             transform: translateY(-40px);
         }
 
-        /* --- O SEGREDO: CAIXA INVISÍVEL (WRAPPER) --- */
-        /* Essa caixa tem o tamanho REAL da diagonal do coração */
-        /* Ela empurra o player para baixo automaticamente */
+        /* --- CORREÇÃO DO PC (WRAPPER MAIOR) --- */
         .heart-wrapper {
             position: relative;
-            width: 55vmin; height: 55vmin; /* Tamanho suficiente para caber o coração girado */
+            width: 55vmin; height: 55vmin; 
             min-width: 320px; min-height: 320px;
-            max-width: 550px; max-height: 550px;
+            
+            /* AUMENTEI AQUI PARA 650px (Antes era 550px) */
+            /* Isso impede que a ponta do coração "vaze" e encoste no player */
+            max-width: 650px; max-height: 650px;
+            
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
         }
 
-        /* CORAÇÃO (Agora fica solto dentro da caixa invisível) */
+        /* CORAÇÃO */
         .heart-container {
-            position: absolute; /* Flutua no meio da caixa wrapper */
+            position: absolute; 
             width: 38vmin; height: 38vmin;
             min-width: 250px; min-height: 250px;
             max-width: 450px; max-height: 450px;
             background-color: #d64045;
-            
-            /* Centraliza e Gira */
             top: 50%; left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            
             animation: heartbeat 1.5s infinite ease-in-out;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
         }
@@ -92,7 +90,6 @@
 
         .hero-content {
             position: absolute; top: 50%; left: 50%;
-            /* Compensa a rotação do pai para o texto ficar reto */
             transform: translate(-50%, -50%) rotate(45deg);
             width: 100%; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; gap: 5px;
@@ -121,26 +118,29 @@
             white-space: nowrap;
         }
 
-        /* --- PLAYER SPOTIFY --- */
+        /* --- CORREÇÃO DO PLAYER (MOBILE) --- */
         .spotify-wrapper {
             position: relative;
             z-index: 30;
-            width: 85%;
-            max-width: 280px;
+            width: 90%;
+            
+            /* Aumentei para 300px para dar mais espaço pro texto e capa */
+            max-width: 300px; 
+            
             margin: 0 auto; 
-            
-            /* NÃO PRECISA MAIS DE MARGEM GIGANTE */
-            margin-top: 10px; /* Apenas um respiro leve da caixa invisível */
-            
+            margin-top: 10px; 
             background-color: #800000; 
             padding: 4px;
-            border-radius: 20px; 
+            
+            /* Arredondei um pouco menos para encaixar melhor */
+            border-radius: 16px; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         .spotify-wrapper iframe {
             display: block;
-            border-radius: 16px;
+            /* Reduzi o raio interno para 12px. Isso evita cortar a capa quadrada */
+            border-radius: 12px; 
             width: 100%;
         }
 
