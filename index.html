@@ -48,7 +48,7 @@
             background-color: #d64045;
             transform: rotate(-45deg);
             animation: heartbeat 1.5s infinite ease-in-out;
-            margin-bottom: 80px; /* Empurrei um pouco pra cima pra dar espaço */
+            margin-bottom: 30px; /* Empurrei um pouco pra cima pra dar espaço */
             box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
         }
 
@@ -96,11 +96,21 @@
             padding: 8px 12px; border-radius: 12px; backdrop-filter: blur(5px);
             white-space: nowrap;
         }
-
+        .spotify-wraper{
+            position: relative;
+            z-index : 200;
+            width: 90%;
+            max-width: 350px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation : float 3s infinite ease-in-out reverse;
+            
+        }
         /* --- SETA DO SCROLL (Agora em cima) --- */
         .scroll-indicator {
             position: absolute; 
-            bottom: 110px; /* Fica acima da mensagem de erro */
+            bottom: 90px; /* Fica acima da mensagem de erro */
             left: 50%;
             transform: translateX(-50%); /* CENTRALIZAÇÃO PERFEITA */
             
@@ -149,7 +159,9 @@
                 <div id="timer">Calculando...</div>
             </div>
         </div>
-        
+        <div class="spotify-wrapper">
+            <iframe style="border-radius: 12px "src="https://open.spotify.com/embed/playlist/4IMBYmlb9yJa1jNKv0FXG0?si=1dspoRL-RLKkbGxvsZJoxQ" width="100%" height="80" frameBorder="0" allowfullscreen= "" allow="autoplay;clipboard-write; encrypted-media;fullscreen; picture-in-picture;" loading="lazy"></iframe>
+        </div>
         <div class="scroll-indicator">
             Role para abrir
             <span>⬇</span>
