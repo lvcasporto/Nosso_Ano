@@ -104,4 +104,105 @@
             width: 90%;
             max-width: 350px;
             
-            /* CENTRAL
+            /* CENTRALIZAÇÃO FORÇADA */
+            margin: 0 auto; 
+            
+            /* COR DO FUNDO (Vermelho Escuro/Vinho) */
+            background-color: #800000; 
+            padding: 5px; /* Bordinha vermelha escura */
+            
+            border-radius: 16px; /* Arredondei mais para combinar */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            
+            /* Animação suave */
+            animation: float 4s infinite ease-in-out reverse;
+        }
+        
+        /* Ajuste do iframe para ficar redondo igual o fundo */
+        .spotify-wrapper iframe {
+            display: block; /* Remove espaços fantasmas */
+            border-radius: 12px;
+        }
+
+        /* SETA */
+        .scroll-indicator {
+            position: absolute; 
+            bottom: 80px;
+            left: 50%; transform: translateX(-50%);
+            font-size: 0.9rem; opacity: 0.8;
+            animation: float 2s infinite ease-in-out; 
+            z-index: 200; text-align: center;
+        }
+        .scroll-indicator span { display: block; font-size: 1.5rem; margin-top: 5px; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+
+        /* MENSAGEM BLOQUEIO */
+        .dev-note {
+            position: absolute;
+            bottom: 20px;
+            left: 50%; transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: center;
+            font-size: 0.75rem;
+            width: 90%; max-width: 350px;
+            color: #ffcccc;
+        }
+        .dev-note strong { color: white; display: block; margin-bottom: 2px; font-size: 0.85rem; }
+
+    </style>
+</head>
+<body>
+
+    <section id="hero">
+        <div class="heart-container">
+            <div class="hero-content">
+                <div class="hero-title">Rumo a 1 Ano ❤️</div>
+                <div class="hero-subtitle">Já são exatamente...</div>
+                <div id="timer">Calculando...</div>
+            </div>
+        </div>
+
+        <div class="spotify-wrapper">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4IMBYmIb9yJa1jNKv0FXG0?si=1dspoRL-RLKkbGxvsZJoxQ" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        
+        <div class="scroll-indicator">
+            Role para abrir
+            <span>⬇</span>
+        </div>
+
+        <div class="dev-note">
+            <strong>🔒 Conteúdo Bloqueado</strong>
+            Aguarde o dia 14/12...
+        </div>
+    </section>
+
+    <script>
+        // TIMER (14/12/2024 00:00)
+        const startDate = new Date(2024, 11, 14, 0, 0, 0);
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timer').innerText = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
