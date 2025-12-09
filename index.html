@@ -39,28 +39,40 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            
-            /* Removi o GAP e vou controlar direto na margem do player */
-            gap: 0; 
-            
             width: 100%;
             max-width: 600px;
-            
-            /* Subi mais o conjunto (-60px) para compensar o espaço extra embaixo */
-            transform: translateY(-60px); 
+            /* Subi um pouco para centralizar visualmente */
+            transform: translateY(-40px);
         }
 
-        /* CORAÇÃO */
-        .heart-container {
+        /* --- O SEGREDO: CAIXA INVISÍVEL (WRAPPER) --- */
+        /* Essa caixa tem o tamanho REAL da diagonal do coração */
+        /* Ela empurra o player para baixo automaticamente */
+        .heart-wrapper {
             position: relative;
-            width: 35vmin; height: 35vmin; /* Reduzi levemente para garantir espaço */
-            min-width: 240px; min-height: 240px;
-            max-width: 400px; max-height: 400px;
+            width: 55vmin; height: 55vmin; /* Tamanho suficiente para caber o coração girado */
+            min-width: 320px; min-height: 320px;
+            max-width: 550px; max-height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* CORAÇÃO (Agora fica solto dentro da caixa invisível) */
+        .heart-container {
+            position: absolute; /* Flutua no meio da caixa wrapper */
+            width: 38vmin; height: 38vmin;
+            min-width: 250px; min-height: 250px;
+            max-width: 450px; max-height: 450px;
             background-color: #d64045;
-            transform: rotate(-45deg);
+            
+            /* Centraliza e Gira */
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            
             animation: heartbeat 1.5s infinite ease-in-out;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
-            z-index: 10; /* Garante que o coração fique atrás se algo encostar */
         }
 
         .heart-container::before, .heart-container::after {
@@ -71,15 +83,16 @@
         .heart-container::after { top: 0; left: 50%; }
 
         @keyframes heartbeat {
-            0% { transform: rotate(-45deg) scale(1); }
-            14% { transform: rotate(-45deg) scale(1.05); }
-            28% { transform: rotate(-45deg) scale(1); }
-            42% { transform: rotate(-45deg) scale(1.05); }
-            70% { transform: rotate(-45deg) scale(1); }
+            0% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
+            14% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.05); }
+            28% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
+            42% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.05); }
+            70% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
         }
 
         .hero-content {
             position: absolute; top: 50%; left: 50%;
+            /* Compensa a rotação do pai para o texto ficar reto */
             transform: translate(-50%, -50%) rotate(45deg);
             width: 100%; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; gap: 5px;
@@ -111,13 +124,13 @@
         /* --- PLAYER SPOTIFY --- */
         .spotify-wrapper {
             position: relative;
-            z-index: 30; /* Fica acima de tudo */
+            z-index: 30;
             width: 85%;
             max-width: 280px;
             margin: 0 auto; 
             
-            /* AQUI ESTÁ O ESPAÇO DE 120PX QUE VOCÊ PEDIU */
-            margin-top: 120px; 
+            /* NÃO PRECISA MAIS DE MARGEM GIGANTE */
+            margin-top: 10px; /* Apenas um respiro leve da caixa invisível */
             
             background-color: #800000; 
             padding: 4px;
@@ -177,17 +190,19 @@
         
         <div class="main-center">
             
-            <div class="heart-container">
-                <div class="hero-content">
-                    <div class="hero-title">Rumo a 1 Ano ❤️</div>
-                    <div class="hero-subtitle">Já são exatamente...</div>
-                    <div id="timer">Calculando...</div>
+            <div class="heart-wrapper">
+                <div class="heart-container">
+                    <div class="hero-content">
+                        <div class="hero-title">Rumo a 1 Ano ❤️</div>
+                        <div class="hero-subtitle">Já são exatamente...</div>
+                        <div id="timer">Calculando...</div>
+                    </div>
                 </div>
             </div>
 
             <div class="spotify-wrapper">
                 <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/track/270ZzqUu270ZzqUu" 
+                src="https://open.spotify.com/embed/playlist/1NP7c2HpgjWcP8cbbcflQl?si=to_ry2_qTHa7bD-RWFCfCQ" 
                 width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
 
