@@ -14,42 +14,51 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
+        /* --- CORREÇÃO PARA PC E MOBILE --- */
+        html, body {
+            height: 100%; /* Garante altura no PC */
+            width: 100%;
             background-color: #b22222; 
             font-family: 'Montserrat', sans-serif;
             color: white;
-            overflow: hidden; 
-            height: 100dvh; 
-            width: 100%;
-            position: fixed; 
-            top: 0; left: 0;
-            overscroll-behavior: none; 
-            touch-action: none; 
+            overflow: hidden; /* Trava rolagem */
         }
 
+        /* O HERO agora é um Flexbox que centraliza tudo */
         #hero {
             height: 100%;
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centraliza verticalmente */
-            align-items: center;     /* Centraliza horizontalmente */
+            justify-content: center; /* Alinha verticalmente */
+            align-items: center;     /* Alinha horizontalmente */
             position: relative;
-            gap: 20px; /* Cria espaço automático entre Coração e Player */
         }
 
-        /* CORAÇÃO (Tamanho ajustado para caber com o player) */
+        /* --- CONTAINER CENTRAL (SEGURA CORAÇÃO + PLAYER) --- */
+        /* Isso garante que eles fiquem alinhados um embaixo do outro */
+        .main-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Espaço entre Coração e Player */
+            width: 100%;
+            max-width: 600px; /* Limite para não estourar no PC */
+            transform: translateY(-20px); /* Sobe um pouquinho para dar espaço pro rodapé */
+        }
+
+        /* CORAÇÃO */
         .heart-container {
             position: relative;
-            /* Reduzi de 42 para 38vmin para dar espaço ao player */
-            width: 38vmin; height: 38vmin; 
-            min-width: 250px; min-height: 250px;
+            width: 38vmin; height: 38vmin;
+            min-width: 260px; min-height: 260px;
             max-width: 450px; max-height: 450px;
             background-color: #d64045;
             transform: rotate(-45deg);
             animation: heartbeat 1.5s infinite ease-in-out;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
-            /* Removi a margin-bottom porque agora usamos GAP no hero */
+            margin: 20px; /* Margem de segurança */
         }
 
         .heart-container::before, .heart-container::after {
@@ -67,6 +76,7 @@
             70% { transform: rotate(-45deg) scale(1); }
         }
 
+        /* TEXTO DENTRO DO CORAÇÃO */
         .hero-content {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%) rotate(45deg);
@@ -97,54 +107,52 @@
             white-space: nowrap;
         }
 
-        /* --- PLAYER SPOTIFY CORRIGIDO --- */
+        /* --- PLAYER SPOTIFY --- */
         .spotify-wrapper {
             position: relative;
             z-index: 200;
             width: 90%;
             max-width: 350px;
             
-            /* CENTRALIZAÇÃO FORÇADA */
-            margin: 0 auto; 
-            
-            /* COR DO FUNDO (Vermelho Escuro/Vinho) */
+            /* FUNDO VINHO */
             background-color: #800000; 
-            padding: 5px; /* Bordinha vermelha escura */
-            
-            border-radius: 16px; /* Arredondei mais para combinar */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            
-            /* Animação suave */
-            animation: float 4s infinite ease-in-out reverse;
-        }
-        
-        /* Ajuste do iframe para ficar redondo igual o fundo */
-        .spotify-wrapper iframe {
-            display: block; /* Remove espaços fantasmas */
-            border-radius: 12px;
+            padding: 5px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        /* SETA */
+        .spotify-wrapper iframe {
+            display: block;
+            border-radius: 12px;
+            width: 100%; /* Ocupa 100% do wrapper */
+        }
+
+        /* --- RODAPÉ (SETA E MENSAGEM) --- */
+        .footer-fixed {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            z-index: 200;
+        }
+
         .scroll-indicator {
-            position: absolute; 
-            bottom: 80px;
-            left: 50%; transform: translateX(-50%);
             font-size: 0.9rem; opacity: 0.8;
             animation: float 2s infinite ease-in-out; 
-            z-index: 200; text-align: center;
+            text-align: center; cursor: default;
         }
         .scroll-indicator span { display: block; font-size: 1.5rem; margin-top: 5px; }
 
         @keyframes float {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, 10px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
         }
 
-        /* MENSAGEM BLOQUEIO */
         .dev-note {
-            position: absolute;
-            bottom: 20px;
-            left: 50%; transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.25);
             padding: 10px 20px;
             border-radius: 50px;
@@ -162,31 +170,41 @@
 <body>
 
     <section id="hero">
-        <div class="heart-container">
-            <div class="hero-content">
-                <div class="hero-title">Rumo a 1 Ano ❤️</div>
-                <div class="hero-subtitle">Já são exatamente...</div>
-                <div id="timer">Calculando...</div>
+        
+        <div class="main-center">
+            
+            <div class="heart-container">
+                <div class="hero-content">
+                    <div class="hero-title">Rumo a 1 Ano ❤️</div>
+                    <div class="hero-subtitle">Já são exatamente...</div>
+                    <div id="timer">Calculando...</div>
+                </div>
+            </div>
+
+            <div class="spotify-wrapper">
+                <iframe style="border-radius:12px" 
+                src="https://open.spotify.com/embed/track/270ZzqUu270ZzqUu" 
+                width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+        </div>
+
+        <div class="footer-fixed">
+            <div class="scroll-indicator">
+                Role para abrir
+                <span>⬇</span>
+            </div>
+
+            <div class="dev-note">
+                <strong>🔒 Conteúdo Bloqueado</strong>
+                Aguarde o dia 14/12...
             </div>
         </div>
 
-        <div class="spotify-wrapper">
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4IMBYmIb9yJa1jNKv0FXG0?si=1dspoRL-RLKkbGxvsZJoxQ" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
-        
-        <div class="scroll-indicator">
-            Role para abrir
-            <span>⬇</span>
-        </div>
-
-        <div class="dev-note">
-            <strong>🔒 Conteúdo Bloqueado</strong>
-            Aguarde o dia 14/12...
-        </div>
     </section>
 
     <script>
-        // TIMER (14/12/2024 00:00)
+        // TIMER
         const startDate = new Date(2024, 11, 14, 0, 0, 0);
 
         function updateTimer() {
