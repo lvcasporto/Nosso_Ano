@@ -18,8 +18,6 @@
             background-color: #b22222; 
             font-family: 'Montserrat', sans-serif;
             color: white;
-            
-            /* TRAVAMENTO TOTAL */
             overflow: hidden; 
             height: 100dvh; 
             width: 100%;
@@ -34,22 +32,24 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Centraliza verticalmente */
+            align-items: center;     /* Centraliza horizontalmente */
             position: relative;
+            gap: 20px; /* Cria espaço automático entre Coração e Player */
         }
 
-        /* CORAÇÃO */
+        /* CORAÇÃO (Tamanho ajustado para caber com o player) */
         .heart-container {
             position: relative;
-            width: 42vmin; height: 42vmin;
-            min-width: 280px; min-height: 280px;
-            max-width: 500px; max-height: 500px;
+            /* Reduzi de 42 para 38vmin para dar espaço ao player */
+            width: 38vmin; height: 38vmin; 
+            min-width: 250px; min-height: 250px;
+            max-width: 450px; max-height: 450px;
             background-color: #d64045;
             transform: rotate(-45deg);
             animation: heartbeat 1.5s infinite ease-in-out;
-            margin-bottom: 30px; /* Diminuí o espaço para caber o Spotify */
             box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
+            /* Removi a margin-bottom porque agora usamos GAP no hero */
         }
 
         .heart-container::before, .heart-container::after {
@@ -77,14 +77,14 @@
 
         .hero-title {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(2.2rem, 5vw, 4rem); 
+            font-size: clamp(2rem, 5vw, 3.5rem); 
             line-height: 1; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
             text-align: center;
         }
 
         .hero-subtitle {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(1.1rem, 3vw, 1.8rem);
+            font-size: clamp(1rem, 3vw, 1.5rem);
             color: #ffeaea; margin-bottom: 5px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
             text-align: center;
@@ -97,97 +97,11 @@
             white-space: nowrap;
         }
 
-        /* --- PLAYER SPOTIFY (NOVO) --- */
+        /* --- PLAYER SPOTIFY CORRIGIDO --- */
         .spotify-wrapper {
             position: relative;
-            z-index: 200; /* Garante que é clicável */
+            z-index: 200;
             width: 90%;
             max-width: 350px;
-            margin-bottom: 40px; /* Espaço para a seta */
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: float 3s infinite ease-in-out reverse; /* Flutua diferente da seta */
-        }
-
-        /* SETA */
-        .scroll-indicator {
-            position: absolute; 
-            bottom: 90px; /* Ajustado */
-            left: 50%; transform: translateX(-50%);
-            font-size: 0.9rem; opacity: 0.8;
-            animation: float 2s infinite ease-in-out; 
-            z-index: 200; text-align: center;
-        }
-        .scroll-indicator span { display: block; font-size: 1.5rem; margin-top: 5px; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, 10px); }
-        }
-
-        /* MENSAGEM BLOQUEIO */
-        .dev-note {
-            position: absolute;
-            bottom: 20px;
-            left: 50%; transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.25);
-            padding: 10px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            text-align: center;
-            font-size: 0.75rem;
-            width: 90%; max-width: 350px;
-            color: #ffcccc;
-        }
-        .dev-note strong { color: white; display: block; margin-bottom: 2px; font-size: 0.85rem; }
-
-    </style>
-</head>
-<body>
-
-    <section id="hero">
-        <div class="heart-container">
-            <div class="hero-content">
-                <div class="hero-title">Rumo a 1 Ano ❤️</div>
-                <div class="hero-subtitle">Já são exatamente...</div>
-                <div id="timer">Calculando...</div>
-            </div>
-        </div>
-
-        <div class="spotify-wrapper">
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4IMBYmIb9yJa1jNKv0FXG0?si=1dspoRL-RLKkbGxvsZJoxQ" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
-        
-        <div class="scroll-indicator">
-            Role para abrir
-            <span>⬇</span>
-        </div>
-
-        <div class="dev-note">
-            <strong>🔒 Conteúdo Bloqueado</strong>
-            Aguarde o dia 14/12...
-        </div>
-    </section>
-
-    <script>
-        // TIMER (14/12/2024 00:00)
-        const startDate = new Date(2024, 11, 14, 0, 0, 0);
-
-        function updateTimer() {
-            const now = new Date();
-            const diff = now - startDate;
             
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById('timer').innerText = 
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-    </script>
-</body>
-</html>
+            /* CENTRAL
