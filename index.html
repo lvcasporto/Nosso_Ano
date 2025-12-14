@@ -1,244 +1,660 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nossa Contagem ❤️</title>
-    
-    <meta name="robots" content="noindex, nofollow">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            height: 100%;
-            width: 100%;
-            background-color: #b22222; 
-            font-family: 'Montserrat', sans-serif;
-            color: white;
-            overflow: hidden; 
-        }
-
-        #hero {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        /* CAIXA CENTRAL */
-        .main-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 600px;
-            transform: translateY(-40px);
-        }
-
-        /* --- CORREÇÃO DO PC (WRAPPER MAIOR) --- */
-        .heart-wrapper {
-            position: relative;
-            width: 55vmin; height: 55vmin; 
-            min-width: 320px; min-height: 320px;
-            
-            /* AUMENTEI AQUI PARA 650px (Antes era 550px) */
-            /* Isso impede que a ponta do coração "vaze" e encoste no player */
-            max-width: 650px; max-height: 650px;
-            
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        /* CORAÇÃO */
-        .heart-container {
-            position: absolute; 
-            width: 38vmin; height: 38vmin;
-            min-width: 250px; min-height: 250px;
-            max-width: 450px; max-height: 450px;
-            background-color: #d64045;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            animation: heartbeat 1.5s infinite ease-in-out;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
-        }
-
-        .heart-container::before, .heart-container::after {
-            content: ""; position: absolute; width: 100%; height: 100%;
-            background-color: #d64045; border-radius: 50%;
-        }
-        .heart-container::before { top: -50%; left: 0; }
-        .heart-container::after { top: 0; left: 50%; }
-
-        @keyframes heartbeat {
-            0% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
-            14% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.05); }
-            28% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
-            42% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.05); }
-            70% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
-        }
-
-        .hero-content {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            width: 100%; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; gap: 5px;
-            z-index: 20;
-        }
-
-        .hero-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(2rem, 5vw, 3.5rem); 
-            line-height: 1; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .hero-subtitle {
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            color: #ffeaea; margin-bottom: 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        #timer {
-            font-size: clamp(0.7rem, 2.5vw, 1.1rem);
-            font-weight: 600; background: rgba(255,255,255,0.25);
-            padding: 8px 12px; border-radius: 12px; backdrop-filter: blur(5px);
-            white-space: nowrap;
-        }
-
-        /* --- CORREÇÃO DO PLAYER (MOBILE) --- */
-        .spotify-wrapper {
-            position: relative;
-            z-index: 30;
-            width: 90%;
-            
-            /* Aumentei para 300px para dar mais espaço pro texto e capa */
-            max-width: 300px; 
-            
-            margin: 0 auto; 
-            margin-top: 10px; 
-            background-color: #800000; 
-            padding: 4px;
-            
-            /* Arredondei um pouco menos para encaixar melhor */
-            border-radius: 16px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .spotify-wrapper iframe {
-            display: block;
-            /* Reduzi o raio interno para 12px. Isso evita cortar a capa quadrada */
-            border-radius: 12px; 
-            width: 100%;
-        }
-
-        /* RODAPÉ */
-        .footer-fixed {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            z-index: 200;
-        }
-
-        .scroll-indicator {
-            font-size: 0.9rem; opacity: 0.8;
-            animation: float 2s infinite ease-in-out; 
-            text-align: center; cursor: default;
-        }
-        .scroll-indicator span { display: block; font-size: 1.5rem; margin-top: 5px; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-
-        .dev-note {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 10px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            text-align: center;
-            font-size: 0.75rem;
-            width: 90%; max-width: 350px;
-            color: #ffcccc;
-        }
-        .dev-note strong { color: white; display: block; margin-bottom: 2px; font-size: 0.85rem; }
-
-    </style>
-</head>
-<body>
-
-    <section id="hero">
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>1 Ano de Nós ❤️</title>
         
-        <div class="main-center">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="googlebot" content="noindex">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+        <style>
+            /* --- RESET --- */
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html { scroll-behavior: smooth; }
+
+            body {
+                background-color: #cd5c5c; 
+                font-family: 'Montserrat', sans-serif;
+                color: #333;
+                overflow-x: hidden;
+            }
+
+            /* --- HERO SECTION --- */
+            #hero {
+                height: 100dvh;
+                width: 100%;
+                background-color: #b22222;
+                display: flex; flex-direction: column; justify-content: center; align-items: center;
+                position: relative; z-index: 100; color: white; text-align: center;
+                box-shadow: 0 10px 50px rgba(0,0,0,0.3); overflow: hidden;
+            }
+
+            .heart-container {
+                position: relative;
+                width: 40vmin; height: 40vmin;
+                min-width: 280px; min-height: 280px;
+                max-width: 500px; max-height: 500px;
+                background-color: #d64045;
+                transform: rotate(-45deg);
+                animation: heartbeat 1.8s infinite ease-in-out;
+                margin-bottom: 20px;
+            }
+
+            .heart-container::before, .heart-container::after {
+                content: ""; position: absolute; width: 100%; height: 100%;
+                background-color: #d64045; border-radius: 50%;
+            }
+            .heart-container::before { top: -50%; left: 0; }
+            .heart-container::after { top: 0; left: 50%; }
+
+            @keyframes heartbeat {
+                0% { transform: rotate(-45deg) scale(1); }
+                14% { transform: rotate(-45deg) scale(1.05); }
+                28% { transform: rotate(-45deg) scale(1); }
+                42% { transform: rotate(-45deg) scale(1.05); }
+                70% { transform: rotate(-45deg) scale(1); }
+            }
+
+            .hero-content {
+                position: absolute; top: 50%; left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                width: 100%; height: 100%; z-index: 10;
+                display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+            }
+
+            .hero-title {
+                font-family: 'Dancing Script', cursive;
+                font-size: clamp(2.5rem, 6vw, 4.5rem); 
+                line-height: 1; margin: 0;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            }
+
+            .hero-subtitle {
+                font-family: 'Dancing Script', cursive;
+                font-size: clamp(1.2rem, 3vw, 2rem);
+                color: #ffeaea; margin: 0 0 10px 0;
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            }
+
+            #timer {
+                font-size: clamp(0.7rem, 2.5vw, 1.1rem);
+                font-weight: 600; background: rgba(255,255,255,0.25);
+                padding: 8px 12px; border-radius: 12px; backdrop-filter: blur(5px);
+                white-space: nowrap;
+            }
+
+            .scroll-indicator {
+                position: absolute; bottom: 30px; font-size: 0.9rem; opacity: 0.8;
+                animation: float 2s infinite ease-in-out; cursor: pointer; z-index: 200;
+            }
+            .scroll-indicator span { display: block; font-size: 1.5rem; margin-top: 5px; }
+            @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+            /* --- LAYOUT COMPACTO --- */
+            .main-layout {
+                display: grid;
+                grid-template-columns: 1fr minmax(280px, 42vw) 1fr; 
+                gap: 15px; min-height: 100vh;
+                background-image: linear-gradient(#b22222 0%, #cd5c5c 15%);
+            }
+
+            .side-column {
+                padding-top: 80px;
+                display: flex; flex-direction: column; align-items: center; 
+                gap: 300px; z-index: 1;
+            }
             
-            <div class="heart-wrapper">
-                <div class="heart-container">
-                    <div class="hero-content">
-                        <div class="hero-title">Rumo a 1 Ano ❤️</div>
-                        <div class="hero-subtitle">Já são exatamente...</div>
-                        <div id="timer">Calculando...</div>
-                    </div>
+            .polaroid-bg {
+                background: #fff; padding: 6px 6px 20px 6px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+                width: 80%; max-width: 500px; min-width: 60px;
+                transition: transform 0.3s;
+            }
+            .polaroid-bg img { width: 100%; display: block; filter: sepia(30%); }
+            .rotate-left { transform: rotate(-8deg); }
+            .rotate-right { transform: rotate(8deg); }
+
+            .center-paper {
+                background-color: #fdfbf7;
+                padding: 40px 20px;
+                box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
+                z-index: 10; 
+                min-height: 100vh;
+                display: flex; flex-direction: column;
+                border-radius: 15px 15px 0 0; 
+                margin-top: -30px; 
+            }
+
+            h2 {
+                font-family: 'Dancing Script', cursive;
+                font-size: clamp(2rem, 5vw, 3rem);
+                color: #b22222; text-align: center; margin-bottom: 25px;
+            }
+
+            .timeline { position: relative; padding-left: 20px; }
+            .timeline::before {
+                content: ''; position: absolute; left: 5px; top: 0; bottom: 0;
+                width: 3px; background: #e0e0e0; border-radius: 2px;
+            }
+
+            /* --- CARD --- */
+            .memory-card {
+                background: white; border-radius: 12px;
+                padding: 15px; 
+                margin-bottom: 25px; 
+                box-shadow: 0 5px 20px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;
+                position: relative;
+                opacity: 0; transform: translateY(30px); 
+                transition: opacity 0.8s ease, transform 0.8s ease; 
+            }
+            
+            .memory-card.visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+            .date-badge {
+                position: absolute; left: -50px; top: 10px;
+                background: #cd5c5c; color: white;
+                width: 45px; height: 45px; border-radius: 50%;
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                font-weight: 800; font-size: 0.7rem; line-height: 1;
+                box-shadow: 0 0 0 4px #fdfbf7; z-index: 2;
+            }
+            
+            .memory-title { 
+                font-family: 'Dancing Script', cursive; 
+                font-size: 1.5rem; color: #b22222; margin-bottom: 5px; 
+            }
+            
+            .memory-photo {
+                display: block; /* Permite centralizar */
+                margin: 0 auto 10px auto; /* Centraliza a foto no card */
+                
+                width: auto; /* A largura se ajusta sozinha */
+                max-width: 100%; /* Garante que não vaze para os lados */
+                
+                /* AQUI ESTÁ O LIMITE DE ALTURA (aprox 7cm) */
+                max-height: 600px; 
+                
+                border-radius: 6px;
+                border: 3px solid #fff; 
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+                
+                /* Garante a proporção perfeita */
+                object-fit: contain; 
+            }
+                        
+            .memory-desc { font-size: 0.9rem; color: #555; line-height: 1.4; text-align: justify; }
+
+            /* --- NOVO: ESTILOS DO CARROSSEL --- */
+            .carousel-wrapper {
+                position: relative;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .carousel-container {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory; /* Faz parar na foto certinha */
+                gap: 10px;
+                padding-bottom: 10px; /* Espaço para a barra de rolagem não colar */
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Esconde scrollbar no Firefox */
+            }
+            
+            /* Esconde scrollbar no Chrome/Safari */
+            .carousel-container::-webkit-scrollbar {
+                display: none; 
+            }
+
+            .carousel-slide {
+                flex: 0 0 100%;
+                scroll-snap-align: center;
+                /* Centraliza a imagem no slide se ela for mais estreita */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .carousel-slide img {
+                width: auto; /* Largura automática */
+                max-width: 100%; /* Não deixa estourar a largura */
+                
+                /* MESMO LIMITE DE ALTURA AQUI */
+                max-height: 600px; 
+                
+                border-radius: 6px;
+                border: 3px solid #fff; 
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+                display: block;
+                
+                /* Proporção original (não corta nada) */
+                object-fit: contain; 
+            }
+
+            /* Indicador visual de que tem mais fotos (setinha ou bolinhas) */
+            .carousel-hint {
+                text-align: center;
+                font-size: 0.7rem;
+                color: #999;
+                margin-top: -5px;
+                margin-bottom: 10px;
+                font-style: italic;
+            }
+
+            .footer-content {
+                text-align: center; margin-top: 20px;
+                border-top: 1px dashed #cd5c5c; padding-top: 20px; color: #888; font-size: 0.8rem;
+            }
+
+            /* --- MEDIA QUERIES --- */
+            @media (max-width: 600px) {
+                .main-layout { gap: 5px; grid-template-columns: 15vw 1fr 15vw; }
+                .timeline { padding-left: 0; }
+                .timeline::before { display: none; }
+                
+                .date-badge {
+                    position: static; width: auto; height: auto;
+                    border-radius: 15px; padding: 4px 12px; margin-bottom: 8px;
+                    box-shadow: none; display: inline-flex; flex-direction: row; gap: 5px;
+                }
+
+                .polaroid-bg { padding: 3px 3px 15px 3px; }
+                .center-paper { padding: 30px 10px; }
+            }
+        </style>
+    </head>
+    <body>
+
+        <section id="hero">
+            <div class="heart-container">
+                <div class="hero-content">
+                    <div class="hero-title">1 Ano</div>
+                    <div class="hero-subtitle">Mais precisamente...</div>
+                    <div id="timer">Calculando...</div>
                 </div>
             </div>
-
-            <div class="spotify-wrapper">
-                <iframe style="border-radius:12px" 
-                src="https://open.spotify.com/embed/playlist/1NP7c2HpgjWcP8cbbcflQl?si=to_ry2_qTHa7bD-RWFCfCQ" 
-                width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-
-        </div>
-
-        <div class="footer-fixed">
-            <div class="scroll-indicator">
+            
+            <div class="scroll-indicator" onclick="document.querySelector('.center-paper').scrollIntoView()">
                 Role para abrir
                 <span>⬇</span>
             </div>
+        </section>
 
-            <div class="dev-note">
-                <strong>🔒 Conteúdo Bloqueado</strong>
-                Aguarde o dia 14/12...
+        <div class="main-layout">
+
+            <div class="side-column">
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/1.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/2.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/3.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/4.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/5.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/6.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/7.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/8.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/9.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/10.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/11.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/12.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/13.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/14.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/15.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/16.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/17.jpeg" alt=""></div>
             </div>
+
+            <div class="center-paper">
+                
+                <h2>Nossa História (de Cinema)</h2>
+                
+                <div class="spotify-wrapper">
+                    <iframe style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/playlist/1NP7c2HpgjWcP8cbbcflQl?si=to_ry2_qTHa7bD-RWFCfCQ" 
+                    width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="timeline">
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>NOV</span><span>3</span></div>
+                        <h3 class="memory-title">Para começar, precisamos voltar um pouco</h3>
+                        <img src="./timeline_photos/3 de novembro de 2024.jpeg" class="memory-photo" alt="Início">
+                        <p class="memory-desc"> O dia em que nos abrimos sobre o que sentiamos. A melhor decisão da minha vida. </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>NOV</span><span>14</span></div>
+                        <h3 class="memory-title">Então ..., a única foto desse dia foi o print dos lugares no cinema.</h3>
+                        <img src="./timeline_photos/14 de novembro de 2024.jpeg" class="memory-photo" alt="Início">
+                        <p class="memory-desc">14 de Novembro de 2024, o dia em que nos beijamos pela primeira vez. Eu mal sabia que seria o primeiro dos melhores dias da minha vida</p>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="date-badge"><span>NOV</span><span>27</span></div>
+                        <h3 class="memory-title">Nosso primeiro "Te amo"</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+                                
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/27 de novembro de 2024.jpeg" alt="Foto 1">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/27 de novembro de 2024-2.jpeg" alt="Foto 2">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/27 de novembro de 2024-1.jpeg" alt="Foto 3">
+                                </div>
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc">Nosso encontro no dia que voltei de SP com os meninos!. Você saindo do carro sorriu, riu e me disse : "Não vai falar ?"</p>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="date-badge"><span>DEZ</span><span>14</span></div>
+                        <h3 class="memory-title">O dia do Pedido de Namoro !!!</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+                                
+                                <div class="carousel-slide">
+                                    <video class="memory-photo" controls playsinline preload="metadata">
+                                        <source src="./timeline_photos/14 de dezembro de 2024.mp4" type="video/mp4">
+                                        Seu navegador não suporta reprodução de vídeo.
+                                    </video>
+
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/14 de dezembro de 2024.jpeg" alt="Foto 1">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/14 de dezembro de 2024-1.jpeg" alt="Foto 2">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/14 de dezembro de 2024-2.jpeg" alt="Foto 3">
+                                </div>
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc">Nosso encontro no dia que voltei de SP com os meninos!. Você saindo do carro sorriu, riu e me disse : "Não vai falar ?"</p>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="date-badge"><span>DEZ</span><span>18</span></div>
+                        <h3 class="memory-title">Só pq amo essas fotos ! </h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+                                
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/18 de dezembro de 2024 -1.jpeg" alt="Foto 1">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/18 de dezembro de 2024.jpeg" alt="Foto 2">
+                                </div>
+
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc"></p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>DEZ</span><span>21</span></div>
+                        <h3 class="memory-title">Oficialmente apresentado para a família</h3>
+                        <img src="./timeline_photos/21 de dezembro de 2024.jpeg" class="memory-photo" alt="Início">
+                        <p class="memory-desc"> </p>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="date-badge"><span>JAN</span><span>15</span></div>
+                        <h3 class="memory-title"> 1 mes juntos !!!</h3>
+                        <img src="./timeline_photos/15 de janeiro de 2025.jpeg" class="memory-photo" alt="Início">
+                        <p class="memory-desc"> TE AMO !!!!!!!!
+                             </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>JAN</span><span>25</span></div>
+                        <h3 class="memory-title">Nossa primeira trilha !</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/25 de janeiro de 2025-1.jpeg" alt="Foto 1">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/25 de janeiro de 2025-2.jpeg" alt="Foto 2">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/25 de janeiro de 2025.jpeg" alt="Foto 3">
+                                </div>
+
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc"></p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>FEV</span><span>18</span></div>
+                        <h3 class="memory-title">Seu aniversário</h3>
+                        <img src="./timeline_photos/18 de fevereiro de 2025.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc">A única foto que tirei nesse dia kkkkkkkk</p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>MAR</span><span>02</span></div>
+                        <h3 class="memory-title">Primeiro jogo da seleção </h3>
+                        <img src="./timeline_photos/2 de março de 2025.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc"></p>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="date-badge"><span>MAR</span><span>29</span></div>
+                        <h3 class="memory-title">Fica comigo pra sempre ? </h3>
+                        <img src="./timeline_photos/29 de março de 2024.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc">Obrigado por todos os dias, todos os momentos e por tudo! </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>ABR</span><span>13</span></div>
+                        <h3 class="memory-title">O melhor aniversário da minha vida</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/13 de abril de 2025-2.jpeg" alt="Foto 1">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/13 de abril de 2025-1.jpeg" alt="Foto 2">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/13 de abril de 2025.jpeg" alt="Foto 3">
+                                </div>
+
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc">O melhor presente da minha vida. Eu nunca me senti tão amado, obrigado!</p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>MAI</span><span>19</span></div>
+                        <h3 class="memory-title">Amo !</h3>
+                        <img src="./timeline_photos/19 de maio de 2025.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc"></p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>JUN</span><span>20</span></div>
+                        <h3 class="memory-title">Como sempre, eu dormindo</h3>
+                        <img src="./timeline_photos/20 de junho de 2025.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc"></p>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="date-badge"><span>JUL</span><span>08</span></div>
+                        <h3 class="memory-title">Our first trip !!!</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/8 de julho de 2025-2.jpeg" alt="Foto 1">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/8 de julho de 2025-1.jpeg" alt="Foto 2">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/8 de julho de 2025.jpeg.jpeg" alt="Foto 3">
+                                </div>
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc">Foi maravilhoso !!!!!!! </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>JUL</span><span>26</span></div>
+                        <h3 class="memory-title">Our first trip !!!</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/26 de julho de 2025-3.jpeg" alt="Foto 1">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/26 de julho de 2025-2.jpeg" alt="Foto 2">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/26 de julho de 2025-1.jpeg" alt="Foto 3">
+                                </div>
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/26 de julho de 2025.jpeg" alt="Foto 3">
+                                </div>
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc">Foi maravilhoso !!!!!!! </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>AGO</span><span>18</span></div>
+                        <h3 class="memory-title">Te estressando</h3>
+                        <img src="./timeline_photos/18 de agosto de 2025.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc">Eu falando que ia morrer na endoscopia</p>
+                    </div>
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>SET</span><span>18</span></div>
+                        <h3 class="memory-title">Show da Diva</h3>
+                        
+                        <div class="carousel-wrapper">
+                            <div class="carousel-container">
+
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/18 de setembro.jpeg" alt="Foto 1">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="./timeline_photos/18 de setembro-1.jpeg" alt="Foto 2">
+                                </div>
+
+                            </div>
+                            <div class="carousel-hint">← Deslize para ver mais →</div>
+                        </div>
+                        <p class="memory-desc">Amo !!! </p>
+                    </div>
+
+                
+
+                    <div class="memory-card">
+                        <div class="date-badge"><span>HOJE</span></div>
+                        <h3 class="memory-title">1 Ano de Nós</h3>
+                        <img src="./timeline_photos/1ano.jpeg" class="memory-photo" alt="Foto">
+                        <p class="memory-desc">E esse é apenas o começo da nossa vida inteira. Te amo!</p>
+                    </div>
+
+                </div>
+
+                <div class="footer-content">
+                    <p>Feito com ❤️ por mim, para você.</p>
+                </div>
+
+            </div>
+
+            <div class="side-column">
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/18.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/19.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/20.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/21.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/22.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/23.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/24.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/25.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/27.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/28.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/29.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/30.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/31.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/32.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/33.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/34.jpeg" alt=""></div>
+                <div class="polaroid-bg rotate-left"><img src="./polaroid/35.jpeg" alt=""></div>
+            
+            </div>
+
         </div>
 
-    </section>
+        <script>
+            const startDate = new Date(2024, 11, 14, 0, 0, 0);
+            function updateTimer() {
+                const now = new Date();
+                const diff = now - startDate;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / 1000 / 60) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+                document.getElementById('timer').innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+            setInterval(updateTimer, 1000);
+            updateTimer();
 
-    <script>
-        const startDate = new Date(2024, 11, 14, 0, 0, 0);
+            const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, observerOptions);
 
-        function updateTimer() {
-            const now = new Date();
-            const diff = now - startDate;
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById('timer').innerText = 
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-    </script>
-</body>
-</html>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll('.memory-card').forEach(card => observer.observe(card));
+            });
+        </script>
+    </body>
+    </html>
